@@ -127,12 +127,15 @@ private:
    * mobile networks have high tunneling overhead.
    *
    * As of July 2016, VPN traffic over Amtrak Acela wifi seems to be
-   * dropped if tunnelled packets are 1320 bytes or larger.  Use a
-   * 1280-byte IPv4 MTU for now.
+   * dropped if tunnelled packets are 1320 bytes or larger.
+   * Also, if an IPv4 pakcet is translated to IPv6 by NAT64,
+   * the packets becomes 20 bytes larger. So using 1260-byte IPv4 MTU
+   * so resulting IPv6 packet doesn't exceed 1280 bytes and doesn't need
+   * to be fragmented.
    *
    * We may have to implement ICMP-less PMTUD (RFC 4821) eventually.
    */
-  static const int DEFAULT_IPV4_MTU = 1280;
+  static const int DEFAULT_IPV4_MTU = 1260;
   /* IPv6 MTU. Use the guaranteed minimum to avoid fragmentation. */
   static const int DEFAULT_IPV6_MTU = 1280;
 
